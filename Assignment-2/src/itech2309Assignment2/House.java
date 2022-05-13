@@ -3,9 +3,9 @@ package itech2309Assignment2;
 
 
 public class House {
-	private String fullAddress;			// Describes where the house is, e.g. street number, street name, suburb/town, etc
-	private String sellerName;			// Describes the name of the house owner name
-	private long    sellerNumber;			// Describes the name of the house owner number
+	public String fullAddress;			// Describes where the house is, e.g. street number, street name, suburb/town, etc
+	public String sellerName;			// Describes the name of the house owner name
+	public long    sellerNumber;			// Describes the name of the house owner number
 	
 	// House inspection 
 	//private HouseInspection[] inspectionSchedule;	
