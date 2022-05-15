@@ -35,6 +35,7 @@ public class HouseTester {
 		assertEquals("12 hms buffalo ave, edwardstown at:      10:00am - 10:15am: Thursday", time1.getInspectionSchedule("Thursday"));
 		assertTrue(home1.addTimeSlot(time1));
 		
+		
 	}
 	
 }
