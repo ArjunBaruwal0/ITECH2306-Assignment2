@@ -64,7 +64,7 @@ public class InspectionSchedule {
     	String description = "";
     	if(getInspectionDay().equalsIgnoreCase(whichDay) ) {
     		for(int i = 0; i < houseNumber; i++) {
-    		description += houseInspection[i].getAddress() + "at:" + toString() + "\r\n";
+    		description += houseInspection[i].getAddress() + " at:" + toString() + "\r\n";
     		}
     	}else {
     		description += "No date available."; 
@@ -73,7 +73,7 @@ public class InspectionSchedule {
     }
     
     public String toString() {
-    	String inspectionTime = "      " + timeSlot + ": " + inspectionDay;
+    	String inspectionTime = " " + timeSlot + ": " + inspectionDay;
     	return inspectionTime;
     }
 }
