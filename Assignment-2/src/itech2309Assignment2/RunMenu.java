@@ -25,7 +25,7 @@ public class RunMenu{
 	    	Scanner scan = new Scanner(System.in);
 	    	int choice = showMainMenu();
 	    
-	if(choice>0 && choice<8) {
+	if(choice>0 && choice<9) {
 	boolean exitSubMenu = false;
 
 	switch(choice) {
@@ -35,7 +35,9 @@ public class RunMenu{
 	+ " 1. House\r\n"
 	+ " 2. owner\r\n"
 	+ " 0. exit to main menu");
+	
 	int choiceToAdd = scan.nextInt();
+	
 
 	if(choiceToAdd == 1) {
 	house[times] = addHouse(house, times);
@@ -159,7 +161,7 @@ while(!exitSubMenu ) {
 	   
 	   
 	    check = inspectionHouse[putInspectionSchedule].addTimeSlot(inspectionSchedule[inspectionNumber]);
-	    if(inspectionSchedule[inspectionNumber].checkTimeSlot()) {
+	    if(!(inspectionSchedule[inspectionNumber].checkTimeSlot())) {
 	    boolean addHouseToSchedule = inspectionSchedule[inspectionNumber].addHouseInspection(inspectionHouse[putInspectionSchedule]);
 	    }else {
 	    	System.out.println("invalid selection.");
@@ -211,7 +213,7 @@ while(!exitSubMenu ) {
 	bookHouseInspection -= 1;
 	switch(userChoice) {
 	case 1:  // cancel schedule for a house from sub-menu
-	changeInspectionSchedule(inspectionSchedule, inspectionHouse, bookHouseInspection, openHouse); //to cancel inspection schedule
+	inspectionSchedule = changeInspectionSchedule(inspectionSchedule, inspectionHouse, bookHouseInspection, openHouse); //to cancel inspection schedule
 	break;
 	
 	case 2:  // book inspection schedule for a house from sub-menu
@@ -246,11 +248,11 @@ while(!exitSubMenu ) {
 	int priceOffer = scan.nextInt();
 	boolean addBuyerPrice = specificBuyer[potentialBuyer-1].setBuyerPrice(priceOffer);
 	if(addBuyerPrice) 
-		System.out.println("Price has been added. Thank you! Please wait for owner response.");
+		System.out.println("Price has been added. Thank you! Please wait for owner response.\r\n");
 	     exitSubMenu = true;
 	}
 	else {
-	System.out.println("Price has not been added. Please try again!");
+	System.out.println("Price has not been added. Please try again!\r\n");
 	exitSubMenu = false;
 	}
 
@@ -259,7 +261,7 @@ while(!exitSubMenu ) {
 	exitSubMenu = true;
 	break;
 	default:
-	System.out.println("Some error has occur! Please try again.");
+	System.out.println("Some error has occur! Please try again.\r\n");
 
 	}
 
@@ -352,6 +354,27 @@ while(!exitSubMenu ) {
 		
 	break;
 	case 7:
+		while(!exitSubMenu) {
+			if(inspectionSchedule[0] != null) {
+		       System.out.println( "Please enter the day you want to check all day inspection schedule:\r\n");
+		       String day = scan.nextLine();
+		       if(day != "") {
+		    	   for(int i = 0; i < inspectionNumber-1; i++) {
+		    		   System.out.println(inspectionSchedule[i].getInspectionSchedule(day));
+		    	   }
+		    	   exitSubMenu = true;
+		       } else {
+		    	   System.out.println( "Enter a day you want to check.");
+		    	   exitSubMenu = false;
+		       }
+		
+		      
+			}else {
+				System.out.println( "No record has been found.");
+			}
+		}
+		break;
+	case 8:
 	System.out.println("Thank you for using our program!");
 	exitMenu = true;
 
@@ -365,16 +388,15 @@ while(!exitSubMenu ) {
 	exitMenu = false;
 	}
 
-	scan.close(); 
+	
 	}
 	   
 	 }
 
 	private Buyer addNewBuyer(Buyer[] buyer, HouseInspection[] inspectionHouse, InspectionSchedule[] inspectionSchedule,
 			int bookHouseInspection, int buyerNumber) {
-		Scanner scan = new Scanner(System.in);
-	    boolean isNumber = false; 
-	    long buyerPhoneNumber = 0;
+		Scanner scan1 = new Scanner(System.in);
+		long buyerPhoneNumber = 0;
 	    
 		InspectionSchedule[] timeSlot= inspectionHouse[bookHouseInspection].getTimeSlot();
 		System.out.println("House at " + inspectionHouse[bookHouseInspection].getAddress() + " has following inspection time: \r\n");
@@ -386,31 +408,34 @@ while(!exitSubMenu ) {
 		
 
 		System.out.println("Please select time slot which you want to book:");
-		int chooseTimeSlot = scan.nextInt();
+		int chooseTimeSlot = scan1.nextInt();
 		if( chooseTimeSlot < inspectionHouse[bookHouseInspection].getNumberOfHouseInspection()) {
 		System.out.println("House at " + inspectionHouse[bookHouseInspection].getAddress() +  " schedule time on " + timeSlot[chooseTimeSlot - 1].toString());
 		System.out.println("\r\n Please enter your details.");
 		System.out.println( "Please enter your full name: \r\n");
-		buyerName = scan.nextLine();
+		buyerName = scan1.nextLine();
 		
+		boolean isNumber = false; 
+	    buyerPhoneNumber = 0;
 		
 
 		do {
 		System.out.println( "Please enter your contact number: ");
-		if(scan.hasNextInt()) {
-		    buyerPhoneNumber = scan.nextInt();
+		if(scan1.hasNextInt()) {
+		    buyerPhoneNumber = scan1.nextInt();
 		    isNumber = true;
 		}
 		else{
 		System.out.println( " It is not a number.");
 		isNumber = false;
-		scan.next();
+		scan1.next();
 		}
 
 		}while(!(isNumber));
 		}
+		
 		buyer[buyerNumber] = new Buyer(buyerName, buyerPhoneNumber);
-		scan.close();
+		
 		return buyer[buyerNumber];
 	}
 
@@ -423,11 +448,12 @@ while(!exitSubMenu ) {
 		+ "    Press 4 for list of houses open for inspection\r\n"
 		+ "    Press 5 for list of current offers of potential buyers for a house\r\n"
 		+ "    Press 6 for list of contrated houses to be sold\r\n"
-		+ "    Press 7 to end the program\r\n");
+		+ "    Press 7 to check all the schedule for a day\r\n"
+		+ "    Press 8 to end the program\r\n");
 
 		int choice = scan.nextInt();
 		scan.nextLine();
-		scan.close();
+		
 		return choice;
 	}
 
@@ -441,7 +467,7 @@ while(!exitSubMenu ) {
 		System.out.println("   " + houseNum +". "+  inspectionHouse[i].getAddress());
 		}
 		int userHouseChoice = scan.nextInt();
-		scan.close(); 
+		 
 		return userHouseChoice;
 
 	}
@@ -452,7 +478,7 @@ while(!exitSubMenu ) {
 	System.out.println("Please enter the full address of the house: ");
 	String houseAddress = scan.nextLine();
 	house[times] = new House (houseAddress);
-	scan.close(); 
+	
 	return house[times];
 	}
 
@@ -478,11 +504,11 @@ while(!exitSubMenu ) {
 	}while(!(isNumber));
 
 	owner[ownerNumber] = new Owner(sellerName, phoneNumber);
-	scan.close(); 
+	
 	return owner[ownerNumber];
 	}
 
-	private static void changeInspectionSchedule(InspectionSchedule[] inspectionSchedule, HouseInspection[] inspectionHouse, int inspectionNumber,  int openHouse) {
+	private static InspectionSchedule[] changeInspectionSchedule(InspectionSchedule[] inspectionSchedule, HouseInspection[] inspectionHouse, int inspectionNumber,  int openHouse) {
 
 	int changeHouseInspection = inspectionNumber;
 
@@ -496,15 +522,16 @@ while(!exitSubMenu ) {
 	System.out.println("Please select time slot which you want to remove:");
 	Scanner scan = new Scanner(System.in);
 	int cancelTimeSlot = scan.nextInt();
-	if( cancelTimeSlot < inspectionHouse[changeHouseInspection].getNumberOfHouseInspection()) {
+	if( cancelTimeSlot <= inspectionHouse[changeHouseInspection].getNumberOfHouseInspection()) {
 	System.out.println("House at " + inspectionHouse[changeHouseInspection].getAddress() +  " schedule time on " + timeSlot[cancelTimeSlot - 1].toString());
-	timeSlot = removeTimeSlot(timeSlot, cancelTimeSlot - 1 );
+	inspectionSchedule = removeTimeSlot(timeSlot, cancelTimeSlot - 1 );
 	   
 	}
 	else {
 	System.out.println("Please select valid value.");
 	}
-	scan.close(); 
+	return inspectionSchedule;
+	
 	}
 
 	private static InspectionSchedule[]  removeTimeSlot(InspectionSchedule[] timeSlot, int index) {
@@ -538,7 +565,7 @@ while(!exitSubMenu ) {
 	Scanner scan = new Scanner(System.in);
 	displayHouse(inspectionHouse, openHouse);
 	int userHouseChoice = scan.nextInt();
-	scan.close(); 
+	
 	return userHouseChoice;
 
 
@@ -556,7 +583,7 @@ while(!exitSubMenu ) {
 	
 	   System.out.println( "Press any related number to do either add photo or return to main menu: \r\n");
 	   int houseToBeReady = scan.nextInt();
-	   scan.close();
+	   
 	   return houseToBeReady;
 
 	}
@@ -573,7 +600,7 @@ while(!exitSubMenu ) {
 	
 	System.out.println( "\r\nPress any related number to do either vaulate or return to main menu: \r\n");
 	   int houseToValuate = scan.nextInt();
-	   scan.close();
+	  
 	   return houseToValuate;
 	}
 
@@ -759,7 +786,7 @@ while(!exitSubMenu ) {
 	dateTime[1] = time;
 	}while(exitTimeSelection);
 
-	scan.close(); 
+	 
 	return dateTime;
 	}
 

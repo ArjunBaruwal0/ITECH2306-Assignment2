@@ -6,7 +6,7 @@ public class InspectionSchedule {
 	private HouseInspection[] houseInspection;
 	int houseNumber;
     
-    InspectionSchedule(String timeSlot, String inspectionDay){
+    public InspectionSchedule(String timeSlot, String inspectionDay){
     	this.timeSlot = timeSlot;
     	this.inspectionDay = inspectionDay;
     	houseInspection = new HouseInspection[2];
@@ -23,7 +23,7 @@ public class InspectionSchedule {
     }
     
     public String getInspectionDay() {
-    	return timeSlot;
+    	return inspectionDay;
     }
     
     public void setInspectionDay(String newInspectionDay) {

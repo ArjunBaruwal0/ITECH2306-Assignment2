@@ -10,7 +10,7 @@ private int numberOfTimeSlot;
 int numberOfHouseInspection, times, buyerNumber;
 
 
-HouseInspection(String houseAddress, String priceRange, String houseStatus){
+public HouseInspection(String houseAddress, String priceRange, String houseStatus){
 super( houseAddress, priceRange);
 this.houseStatus = houseStatus;
 numberOfTimeSlot = 2;
